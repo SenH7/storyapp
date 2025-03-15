@@ -1,0 +1,19 @@
+<h1><%= @post.title %></h1>
+<p><%= @post.content %></p>
+<p>By: <%= link_to @post.user&.personal_information&.username || @post.user&.email, user_path(@post.user) %></p>
+
+<h3>Comments</h3>
+<% @post.comments.each do |comment| %>
+  <p><%= comment.content %> by <%= link_to comment.user&.personal_information&.username || comment.user&.email, user_path(comment.user) %></p>
+  <% if current_user && (current_user == @post.user || current_user == comment.user) %>
+    <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% end %>
+<% end %>
+
+<% if logged_in? %>
+  <h3>Add a Comment</h3>
+  <%= form_with model: [@post, Comment.new] do |form| %>
+    <%= form.text_area :content %>
+    <%= form.submit 'Add Comment' %>
+  <% end %>
+<% end %>

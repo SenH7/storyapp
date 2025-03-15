@@ -1,0 +1,13 @@
+<h1>My Posts</h1>
+<%= link_to 'Create New Post', new_post_path %>
+
+<% if @posts.any? %>
+  <% @posts.each do |post| %>
+    <h2><%= link_to post.title, post_path(post) %></h2>
+    <p><%= post.content.truncate(100) %></p>
+    <%= link_to 'Edit', edit_post_path(post) %>
+    <%= button_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% end %>
+<% else %>
+  <p>You haven't created any posts yet.</p>
+<% end %>

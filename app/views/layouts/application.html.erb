@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>StoryApp</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+</head>
+<body>
+  <div id="header">
+    <nav class="nav-bar">
+      <ul class="center-nav">
+        <li><%= link_to 'Home', root_path %></li>
+      </ul>
+      <ul class="right-nav">
+        <% if logged_in? %>
+          <li><%= link_to 'My Posts', my_posts_path %></li>
+          <li><%= link_to 'My Profile', edit_profile_path %></li>
+          <%= button_to 'Logout', logout_path, method: :delete %>
+      </ul>
+      <ul class="right-nav">
+        <% else %>
+            <%= link_to 'Login', login_path %>
+            <%= link_to 'Signup', signup_path %>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+<% if notice %><p class="notice"><%= notice %></p><% end %>
+<% if alert %><p class="alert"><%= alert %></p><% end %>
+<%= yield %>
+</body>
+</html>
