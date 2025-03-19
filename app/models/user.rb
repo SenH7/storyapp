@@ -14,4 +14,5 @@ class User < ApplicationRecord
   def create_default_personal_information
     create_personal_information(username: "User_#{id}")
   end
+
 end

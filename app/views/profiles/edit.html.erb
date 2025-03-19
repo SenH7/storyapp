@@ -1,25 +1,44 @@
-<h1>Edit Profile</h1>
-<%= form_with model: @user, url: profile_path, method: :patch do |form| %>
-  <%= form.label :email %>
-  <%= form.email_field :email %>
-  <%= form.label :new_password %>
-  <%= form.password_field :password %>
-  <%= form.label :new_password_confirmation %>
-  <%= form.password_field :password_confirmation %>
+<div class="main-container">
+  <div class="contents-wrapper box">
+    <h1>Edit Profile</h1>
+    <%= form_with model: @user, url: profile_path, method: :patch do |form| %>
+      <div class="field-wrapper">
+        <%= form.label :email %><br>
+        <%= form.email_field :email %><br>
+      </div>
+      <div class="field-wrapper">
+        <%= form.label :new_password %><br>
+        <%= form.password_field :password %><br>
+      </div>
+      <div class="field-wrapper">
+        <%= form.label :confirm_new_password %><br>
+        <%= form.password_field :password_confirmation %><br>
+      </div>
 
-  <%= form.fields_for :personal_information do |pi_form| %>
-    <%= pi_form.label :username %>
-    <%= pi_form.text_field :username %>
-    <%= pi_form.label :city %>
-    <%= pi_form.text_field :city %>
-    <%= pi_form.label :country %>
-    <%= pi_form.text_field :country %>
-    <%= pi_form.label :user_image %>
-    <%= pi_form.file_field :user_image %>
-    <% if @user.personal_information.user_image.attached? %>
-      <%= image_tag @user.personal_information.user_image, alt: "Profile Photo", class: "profit-photo" %>
+      <%= form.fields_for :personal_information do |pi_form| %>
+        <div class="field-wrapper">
+          <%= pi_form.label :username %><br>
+          <%= pi_form.text_field :username %><br>
+        </div>
+        <div class="field-wrapper">
+          <%= pi_form.label :city %><br>
+          <%= pi_form.text_field :city %><br>
+        </div>
+        <div class="field-wrapper">
+          <%= pi_form.label :country %><br>
+          <%= pi_form.text_field :country %><br>
+        </div>
+        <div class="field-wrapper">
+          <%= pi_form.label :user_image %>
+          <%= pi_form.file_field :user_image %><br>
+          <% if @user.personal_information.user_image.attached? %>
+            <%= image_tag @user.personal_information.user_image, alt: "Profile Photo", class: "profile-photo" %><br>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%= form.submit 'Update Profile' %>
+      <span class="right-button"><%= link_to 'Cancel', root_path %></span>
     <% end %>
-  <% end %>
-
-  <%= form.submit 'Update Profile' %>
-<% end %>
+  </div>
+</div>

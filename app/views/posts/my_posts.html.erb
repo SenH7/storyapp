@@ -1,13 +1,14 @@
-<h1>My Posts</h1>
-<%= link_to 'Create New Post', new_post_path %>
-
-<% if @posts.any? %>
-  <% @posts.each do |post| %>
-    <h2><%= link_to post.title, post_path(post) %></h2>
-    <p><%= post.content.truncate(100) %></p>
-    <%= link_to 'Edit', edit_post_path(post) %>
-    <%= button_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %>
+<div class="main-container">
+  <% if @posts.any? %>
+    <% @posts.each do |post| %>
+      <div class="contents-wrapper box">
+        <h2><%= link_to post.title, post_path(post) %></h2>
+        <p><%= post.content.truncate(100) %></p>
+        <span class="click-button"><%= link_to 'Edit', edit_post_path(post) %></span>
+        <%= button_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>You haven't created any posts yet.</p>
   <% end %>
-<% else %>
-  <p>You haven't created any posts yet.</p>
-<% end %>
+</div>

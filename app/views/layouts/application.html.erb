@@ -10,25 +10,31 @@
 <body>
   <div id="header">
     <nav class="nav-bar">
-      <ul class="center-nav">
-        <li><%= link_to 'Home', root_path %></li>
+      <ul class="left-nav nav-list">
+        <li><strong><%= link_to 'Short Story Club', root_path %></strong></li>
       </ul>
-      <ul class="right-nav">
+      <ul class="right-nav nav-list">
         <% if logged_in? %>
-          <li><%= link_to 'My Posts', my_posts_path %></li>
-          <li><%= link_to 'My Profile', edit_profile_path %></li>
-          <%= button_to 'Logout', logout_path, method: :delete %>
+          <li class="click-button"><%= link_to 'My Stories', my_posts_path %></li>
+          <li class="click-button"><%= link_to 'My Profile', user_path(current_user) %></li>
+          <li class="click-button"><%= link_to 'Upload Story', new_post_path %></li>
+          <span class="logout"><%= button_to 'Logout', logout_path, method: :delete %></span>
       </ul>
-      <ul class="right-nav">
+      <ul class="right-nav nav-list">
         <% else %>
-            <%= link_to 'Login', login_path %>
-            <%= link_to 'Signup', signup_path %>
+            <li class="click-button"><%= link_to 'Login', login_path %></li>
+            <li class="signup click-button"><%= link_to 'Signup', signup_path %></li>
         <% end %>
       </ul>
     </nav>
   </div>
+<%= yield %>
 <% if notice %><p class="notice"><%= notice %></p><% end %>
 <% if alert %><p class="alert"><%= alert %></p><% end %>
-<%= yield %>
+<footer id="footer">
+  <div class="footer-copyright">
+    Power by <a href="https://rubyonrails.org/" target="_blank" rel="noopener noreferrer">Ruby on Rails</a>
+  </div>
+</footer>
 </body>
 </html>

@@ -1,28 +1,37 @@
 <!--This is public personal profit page-->
-<h1><%= @user.personal_information&.username || @user.email %></h1>
+<div class="main-container">
+  <div class="contents-wrapper box">
+    <div>
+      <h1><%= @user.personal_information&.username || @user.email %></h1>
+      <% if @user.personal_information %>
+        <% if @user.personal_information.user_image.attached? %>
+          <%= image_tag @user.personal_information.user_image, alt: "Profile Photo", class: "profile-photo" %>
+        <% else %>
+          <p>No profile photo uploaded.</p>
+        <% end %>
+        <p><strong>City:</strong> <%= @user.personal_information.city || 'Not specified' %></p>
+        <p><strong>Country:</strong> <%= @user.personal_information.country || 'Not specified' %></p>
+        <% if @user == current_user %>
+          <%= link_to 'Edit', edit_profile_path %>
+        <% end %>
+      <% else %>
+        <p>No personal information available.</p>
+      <% end %>
+    </div>
 
-<% if @user.personal_information %>
-  <% if @user.personal_information.user_image.attached? %>
-    <%= image_tag @user.personal_information.user_image, alt: "Profile Photo", class: "profile-photo" %>
-  <% else %>
-    <p>No profile photo uploaded.</p>
-  <% end %>
-
-  <p><strong>City:</strong> <%= @user.personal_information.city || 'Not specified' %></p>
-  <p><strong>Country:</strong> <%= @user.personal_information.country || 'Not specified' %></p>
-<% else %>
-  <p>No personal information available.</p>
-<% end %>
-
-<% if @user.posts.any? %>
-  <% @user.posts.each do |post| %>
-    <h2><%= link_to post.title, post_path(post) %></h2>
-    <p><%= post.content.truncate(100) %></p>
-    <% if @user == current_user %>
-      <%= link_to 'Edit', edit_post_path(post) %>
-      <%= button_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% if @user.posts.any? %>
+      <% @user.posts.each do |post| %>
+        <div class="top-border-line">
+          <h2><%= link_to post.title, post_path(post) %></h2>
+          <p><%= post.content.truncate(100) %></p>
+          <% if @user == current_user %>
+            <%= link_to 'Edit', edit_post_path(post) %>
+            <%= button_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <p>You haven't created any posts yet.</p>
     <% end %>
-  <% end %>
-<% else %>
-  <p>You haven't created any posts yet.</p>
-<% end %>
+  </div>
+</div>
