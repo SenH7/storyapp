@@ -37,8 +37,10 @@
         </div>
       <% end %>
 
-      <%= form.submit 'Update Profile' %>
-      <span class="right-button"><%= link_to 'Cancel', root_path %></span>
+      <div class="actions">
+        <%= form.submit 'Update Profile', class:'submit-button' %>
+        <span class="right-button"><%= link_to 'Cancel', root_path %></span>
+      </div>
     <% end %>
   </div>
 </div>

@@ -5,9 +5,9 @@ class CommentsController < ApplicationController
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
     if @comment.save
-      redirect_to post_path(@post), notice: 'Comment added.'
+      redirect_to post_path(@post), notice: "Comment added."
     else
-      redirect_to post_path(@post), alert: 'Failed to add comment.'
+      redirect_to post_path(@post), alert: "Comment cannot be empty."
     end
   end
 
@@ -15,9 +15,9 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     if current_user == @comment.user || current_user == @comment.post.user
       @comment.destroy
-      redirect_to post_path(@comment.post), notice: 'Comment deleted.'
+      redirect_to post_path(@comment.post), notice: "Comment deleted."
     else
-      redirect_to post_path(@comment.post), alert: 'You are not authorized to delete this comment.'
+      redirect_to post_path(@comment.post), alert: "You are not authorized to delete this comment."
     end
   end
 

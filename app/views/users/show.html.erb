@@ -1,9 +1,9 @@
 <!--This is public personal profit page-->
 <div class="main-container">
   <div class="contents-wrapper box">
-    <div>
-      <h1><%= @user.personal_information&.username || @user.email %></h1>
+    <div class="postcard">
       <% if @user.personal_information %>
+        <h1><%= @user.personal_information&.username || @user.email %></h1>
         <% if @user.personal_information.user_image.attached? %>
           <%= image_tag @user.personal_information.user_image, alt: "Profile Photo", class: "profile-photo" %>
         <% else %>
@@ -11,12 +11,21 @@
         <% end %>
         <p><strong>City:</strong> <%= @user.personal_information.city || 'Not specified' %></p>
         <p><strong>Country:</strong> <%= @user.personal_information.country || 'Not specified' %></p>
-        <% if @user == current_user %>
-          <%= link_to 'Edit', edit_profile_path %>
-        <% end %>
       <% else %>
         <p>No personal information available.</p>
       <% end %>
+
+      <div class="actions">
+        <% if @user == current_user %>
+          <span class="click-button"><%= link_to 'Edit', edit_profile_path %></span>
+        <% end %>
+        <% if @user == current_user %>
+            <span class="delete"><%= button_to "Delete Account", user_path(@user),
+                        method: :delete,
+                        data: { confirm: "Are you sure? This will permanently delete your account, all your stories, and comments. This action cannot be undone." }
+            %></span>
+        <% end %>
+      </div>
     </div>
 
     <% if @user.posts.any? %>
@@ -25,8 +34,10 @@
           <h2><%= link_to post.title, post_path(post) %></h2>
           <p><%= post.content.truncate(100) %></p>
           <% if @user == current_user %>
-            <%= link_to 'Edit', edit_post_path(post) %>
-            <%= button_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <div class="actions">
+              <span class="click-button"><%= link_to 'Edit', edit_post_path(post) %></span>
+              <span class="delete"><%= button_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %></span>
+            </div>
           <% end %>
         </div>
       <% end %>

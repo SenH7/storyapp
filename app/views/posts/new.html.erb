@@ -3,15 +3,23 @@
     <h1>Create New Post</h1>
     <%= form_with model: @post, url: posts_path, method: :post do |form| %>
       <div class="field-wrapper">
-        <%= form.label :title %><br>
-        <%= form.text_field :title %><br>
+        <%= form.label :title %>
+        <%= form.text_field :title, placeholder: "Enter a title for your story" %>
+        <% if @post&.errors&.include?(:title) %>
+          <div class="field-error"><%= @post.errors.full_messages_for(:title).first %></div>
+        <% end %>
       </div>
       <div class="field-wrapper">
-        <%= form.label :content %><br>
-        <%= form.text_area :content %><br>
+        <%= form.label :content %>
+        <%= form.text_area :content, placeholder: "Write your story here..." %>
+        <% if @post&.errors&.include?(:content) %>
+          <div class="field-error"><%= @post.errors.full_messages_for(:content).first %></div>
+        <% end %>
       </div>
-      <span class="left-button"><%= form.submit 'Create Post' %></span>
-      <span class="right-button"><%= link_to 'Cancel', my_posts_path %></span>
+      <div class="actions">
+        <%= form.submit 'Create Post', class: 'submit-button' %>
+        <span class="right-button"><%= link_to 'Cancel', my_posts_path %></span>
+      </div>
     <% end %>
   </div>
 </div>

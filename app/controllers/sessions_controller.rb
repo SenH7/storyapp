@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   def new
+    @login_errors = []
   end
 
   def create
@@ -8,7 +9,9 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to root_path, notice: 'Logged in successfully.'
     else
-      flash.now[:alert] = 'Invalid email or password.'
+      @login_errors = []
+      @login_errors << "Invalid email or password"
+      flash.now[:alert] = 'Invalid login credentials'
       render :new, status: :unprocessable_entity
     end
   end

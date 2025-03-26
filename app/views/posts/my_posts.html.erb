@@ -4,8 +4,10 @@
       <div class="contents-wrapper box">
         <h2><%= link_to post.title, post_path(post) %></h2>
         <p><%= post.content.truncate(100) %></p>
-        <span class="click-button"><%= link_to 'Edit', edit_post_path(post) %></span>
-        <%= button_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %>
+        <div class="actions">
+          <span class="click-button"><%= link_to 'Edit', edit_post_path(post) %></span>
+          <span class="delete"><%= button_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %></span>
+        </div>
       </div>
     <% end %>
   <% else %>

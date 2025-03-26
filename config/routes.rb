@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
   get 'my_posts', to: 'posts#my_posts'
 
-  resources :users, only: [:show]
+  resources :users, only: [:show, :destroy]
 
   resource :profile, only: [:edit, :update], controller: 'profiles'
 end

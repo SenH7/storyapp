@@ -8,8 +8,10 @@
       <h2><%= @post.title %></h2>
       <p><%= @post.content %></p>
       <% if current_user && current_user == @post.user %>
-        <%= link_to 'Edit', edit_post_path(@post) %>
-        <%= button_to 'Delete', post_path(@post), method: :delete, data: { confirm: 'Are you sure?' } %>
+        <div class="actions">
+          <span class="click-button"><%= link_to 'Edit', edit_post_path(@post) %></span>
+          <span class="delete"><%= button_to 'Delete', post_path(@post), method: :delete, data: { confirm: 'Are you sure?' } %></span>
+        </div>
       <% end %>
     </div>
   </div>
@@ -19,8 +21,8 @@
         <% if logged_in? %>
           <h3>Add a Comment</h3>
           <%= form_with model: [@post, Comment.new] do |form| %>
-            <%= form.text_area :content%><br>
-            <%= form.submit 'Add Comment' %>
+            <%= form.text_area :content, placeholder:"Leave your comments here"%><br>
+            <%= form.submit 'Add Comment', class:"add-comment-button"%>
           <% end %>
         <% end %>
     </div>
@@ -28,12 +30,17 @@
       <% @post.comments.each do |comment| %>
       <div class="comments bottom-border-line">
         <div class="avatar">
-          <img src="<%= profile_image_url_for(comment.user) %>" alt="Profile Image" class="avatar-photo">
-          <%= link_to comment.user&.personal_information&.username || comment.user&.email, user_path(comment.user)%>
+          <% if comment.user.present? %>
+            <img src="<%= profile_image_url_for(comment.user) %>" alt="Profile Image" class="avatar-photo">
+            <%= link_to comment.user&.personal_information&.username || comment.user&.email, user_path(comment.user)%>
+          <% else %>
+            <img src="<%= asset_path("default_profile_image.png") %>" alt="Profile Image" class="avatar-photo">
+            <span>Nonexistent User</span>
+          <% end %>
         </div>
         <p class="post-contents"><%= comment.content %></p>
         <% if current_user && (current_user == @post.user || current_user == comment.user) %>
-          <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <span class="delete"><%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, data: { confirm: 'Are you sure?' } %></span>
         <% end %>
       </div>
       <% end %>

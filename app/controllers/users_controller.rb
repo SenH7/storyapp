@@ -18,6 +18,21 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user = User.find(params[:id])
+
+    # Security check: only allow users to delete their own account
+    if @user != current_user
+      redirect_to root_path, alert: "You can only delete your own account."
+      return
+    end
+
+    # Delete the session to log the user out
+    session.delete(:user_id)
+
+    # Delete the user
+    @user.destroy
+
+    redirect_to root_path, notice: "Your account has been successfully deleted."
   end
 
   private

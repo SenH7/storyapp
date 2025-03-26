@@ -5,13 +5,21 @@
       <div class="field-wrapper">
         <%= form.label :title %><br>
         <%= form.text_field :title %>
+        <% if @post.errors.include?(:title) %>
+          <div class="field-error"><%= @post.errors.full_messages_for(:title).first %></div>
+        <% end %>
       </div>
       <div class="field-wrapper">
         <%= form.label :content %><br>
         <%= form.text_area :content %>
+        <% if @post.errors.include?(:content) %>
+          <div class="field-error"><%= @post.errors.full_messages_for(:content).first %></div>
+        <% end %>
       </div>
-      <span class="left-button"><%= form.submit 'Update Post' %></span>
-      <span class="right-button"><%= link_to 'Cancel', my_posts_path %></span>
+      <div class="actions">
+        <%= form.submit 'Update Post', class: 'submit-button' %>
+        <span class="right-button"><%= link_to 'Cancel', my_posts_path %></span>
+      </div>
     <% end %>
   </div>
 </div>

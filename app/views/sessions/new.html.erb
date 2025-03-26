@@ -1,15 +1,25 @@
 <div class="register-wrapper box">
 <h2>Login</h2>
-    <%= form_with url: login_path, method: :post do |form| %>
-      <div class="field-wrapper">
-        <%= form.label :email %><br>
-        <%= form.email_field :email %><br>
-      </div>
-      <div class="field-wrapper">
-        <%= form.label :password %><br>
-        <%= form.password_field :password %><br>
-      </div>
-      <div class="left-button field-wrapper"><%= form.submit 'Login' %></div>
-      <div class="redirect-link field-wrapper">Don't have account? <%= link_to 'Signup', signup_path %></div>
-    <% end %>
+  <% if @login_errors.any? %>
+    <div class="error-messages">
+      <h3>Login failed:</h3>
+      <ul>
+        <% @login_errors.each do |error| %>
+          <li><%= error %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form_with url: login_path, method: :post do |form| %>
+    <div class="field-wrapper">
+      <%= form.label :email %>
+      <%= form.email_field :email, placeholder: "enter your email" %>
+    </div>
+    <div class="field-wrapper">
+      <%= form.label :password %>
+      <%= form.password_field :password, placeholder: "enter your email" %>
+    </div>
+    <div class="field-wrapper"><%= form.submit 'Login' %></div>
+    <div class="redirect-link field-wrapper">Don't have account? <%= link_to 'Signup', signup_path %></div>
+  <% end %>
 </div>
