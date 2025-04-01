@@ -2,9 +2,11 @@ class Api::V1::SessionsController < Api::V1::BaseController
   skip_before_action :authenticate_api_request, only: [:create]
 
   def create
-    @user = User.find_by(email: params[:email])
+    email = params[:email] || params.dig(:user, :email) || params.dig(:session, :user, :email)
+    password = params[:password] || params.dig(:user, :password) || params.dig(:session, :user, :password)
+    @user = User.find_by(email: email)
 
-    if @user&.authenticate(params[:password])
+    if @user&.authenticate(password)
       token = generate_token(@user.id)
       render json: {
         status: 'success',
