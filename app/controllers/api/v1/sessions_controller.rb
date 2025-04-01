@@ -5,15 +5,11 @@ class Api::V1::SessionsController < Api::V1::BaseController
     @user = User.find_by(email: params[:email])
 
     if @user&.authenticate(params[:password])
-      token = generate_token(@user.id)
+      token = JwtService.encode(user_id: @user.id)
       render json: {
         status: 'success',
         token: token,
-        user: {
-          id: @user.id,
-          email: @user.email,
-          username: @user.personal_information&.username
-        }
+        user: @user
       }
     else
       render json: {
@@ -25,12 +21,5 @@ class Api::V1::SessionsController < Api::V1::BaseController
 
   def destroy
     render json: { message: 'Successfully logged out' }
-  end
-
-  private
-
-  def generate_token(user_id)
-    payload = { user_id: user_id }
-    JWT.encode(payload, Rails.application.credentials.secret_key_base, 'HS256')
   end
 end

@@ -12,14 +12,19 @@ class Api::V1::BaseController < ApplicationController
     end
 
     token = header.split(' ').last
-    begin
-      @decoded_token = JWT.decode(token, Rails.application.credentials.secret_key_base, true, algorithm: 'HS256')[0]
-      @current_api_user = User.find(@decoded_token['user_id'])
-    rescue JWT::DecodeError
+    decoded_token = JwtService.decode(token)
+
+    if decoded_token.nil?
       render json: { error: 'Invalid token' }, status: :unauthorized
-    rescue ActiveRecord::RecordNotFound
+      return
+    end
+
+    @current_api_user = User.find_by(id: decoded_token['user_id'])
+    unless @current_api_user
       render json: { error: 'User not found' }, status: :unauthorized
     end
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'User not found' }, status: :unauthorized
   end
 
   def current_api_user
