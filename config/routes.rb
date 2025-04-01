@@ -45,4 +45,18 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :destroy]
 
   resource :profile, only: [:edit, :update], controller: 'profiles'
+
+  namespace :api do
+    namespace :v1 do
+      resources :posts, only: [:index, :show, :create, :update, :destroy]
+      resources :comments, only: [:create, :destroy]
+
+      post 'signup', to: 'registrations#create'
+      post 'login', to: 'sessions#create'
+      delete 'logout', to: 'sessions#destroy'
+
+      get 'profile', to: 'users#show'
+      patch 'profile', to: 'users#update'
+    end
+  end
 end
