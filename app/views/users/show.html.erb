@@ -9,6 +9,7 @@
         <% else %>
           <p>No profile photo uploaded.</p>
         <% end %>
+        <p><strong>Email:</strong> <%= @user.email%></p>
         <p><strong>City:</strong> <%= @user.personal_information.city || 'Not specified' %></p>
         <p><strong>Country:</strong> <%= @user.personal_information.country || 'Not specified' %></p>
       <% else %>

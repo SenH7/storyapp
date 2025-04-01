@@ -50,6 +50,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :posts, only: [:index, :show, :create, :update, :destroy]
       resources :comments, only: [:create, :destroy]
+      resources :users, only: [] do
+        get :show_public, on: :member
+      end
 
       post 'signup', to: 'registrations#create'
       post 'login', to: 'sessions#create'

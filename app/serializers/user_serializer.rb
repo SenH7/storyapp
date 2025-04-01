@@ -1,7 +1,16 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :username
+  attributes :id, :email, :created_at
+  has_one :personal_information
 
-  def username
-    object.personal_information&.username || object.email
+  class PersonalInformationSerializer < ActiveModel::Serializer
+    attributes :id, :username, :city, :country, :user_image_url
+
+    def user_image_url
+      if object.user_image.attached?
+        Rails.application.routes.url_helpers.rails_blob_url(object.user_image, only_path: true)
+      else
+        nil
+      end
+    end
   end
 end
