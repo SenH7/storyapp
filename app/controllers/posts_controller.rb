@@ -19,7 +19,12 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
+    if Post.exists?(params[:id])
+      @post = Post.find(params[:id])
+    else
+      #redirect_to posts_path, alert: 'The post you are looking for does not exist.'
+      render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
+    end
   end
 
   def my_posts
